@@ -4,16 +4,6 @@ A watchlist that gets **quieter** as it gets smarter. It surfaces what is
 statistically unusual **for that specific stock**, **since you last looked**,
 **net of what its sector did**, and says why in one line.
 
-```bash
-docker compose up
-```
-
-Open <http://localhost:3000>, enter any email, press **Continue**. No API keys.
-No waiting for market hours.
-
-> **[`ARCHITECTURE.md`](ARCHITECTURE.md)** is the design rationale: every
-> decision, every trade-off, every alternative that was rejected and why.
-
 ---
 
 ## Contents
