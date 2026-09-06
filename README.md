@@ -15,22 +15,15 @@ No waiting for market hours.
 
 ## What it looks like
 
-<img width="1917" height="891" alt="Screenshot 2026-09-06 220133" src="https://github.com/user-attachments/assets/2ef13c80-3561-4237-a190-42be451e3ab6" />
+<img width="1910" height="885" alt="Screenshot 2026-09-06 215928" src="https://github.com/user-attachments/assets/f49de65c-ab70-4919-b06f-10eb1c647a96" />
 
-*The digest. Every card carries the move, the range that was expected of it, and
-one sentence assembled from the same numbers that produced the ranking.*
+<img width="1917" height="902" alt="Screenshot 2026-09-06 220011" src="https://github.com/user-attachments/assets/e5326e2a-b6a9-4e14-921e-d868122c2425" />
+
+<img width="1917" height="891" alt="Screenshot 2026-09-06 220133" src="https://github.com/user-attachments/assets/2ef13c80-3561-4237-a190-42be451e3ab6" />
 
 <img width="1916" height="905" alt="Screenshot 2026-09-06 220150" src="https://github.com/user-attachments/assets/7f24d928-a633-424a-8820-8b40b479a84b" />
 
-*Show the maths. The raw move, how much of it the sector explains, the remainder
-that belongs to the stock, and the range that was expected over a window this
-long. Nothing here is a black box.*
-
 <img width="1917" height="911" alt="Screenshot 2026-09-06 220257" src="https://github.com/user-attachments/assets/c88b9eb0-2096-4414-b38b-059371a1d840" />
-
-*Calibration. Twelve months replayed through the same scoring function the app
-calls. The model predicted 1.62 criticals per week and measured 6.27; the gap is
-fat tails, reported rather than corrected for.*
 
 ---
 
