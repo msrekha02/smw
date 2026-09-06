@@ -4,6 +4,16 @@ A watchlist that gets **quieter** as it gets smarter. It surfaces what is
 statistically unusual **for that specific stock**, **since you last looked**,
 **net of what its sector did**, and says why in one line.
 
+```bash
+docker compose up
+```
+
+Open <http://localhost:3000>, enter any email, press **Continue**. No API keys.
+No waiting for market hours.
+
+*Every card carries the move, the range that was expected of it, and a sentence
+built from the same numbers that produced the ranking.*
+
 ---
 
 ## Contents
@@ -89,6 +99,15 @@ First boot takes about a minute: it applies the schema, syncs the symbol catalog
 seeds the twelve benchmarks, seeds twenty demo tickers, and writes a checkpoint a
 few sessions back so there is a real diff on screen rather than a page of zeroes.
 
+**Known: the first boot on a fresh volume can fail once.** The API and worker
+apply migrations concurrently and race on `CREATE EXTENSION pg_trgm`; the API
+exits with code 3 and Compose reports `dependency failed to start`. Run the same
+command again — the extension exists by then and it comes up clean.
+
+```bash
+docker compose up          # if it reports "dependency failed to start", re-run
+```
+
 | Service | URL |
 |---|---|
 | Web | <http://localhost:3000> |
@@ -98,6 +117,19 @@ few sessions back so there is a real diff on screen rather than a page of zeroes
 `you@example.com` is the address the demo seeder uses, so it arrives with twenty
 tickers and history. **Any other address gets a genuinely empty account** — which
 is the point of the sign-in screen.
+
+### If you only have five minutes
+
+1. Sign in as `you@example.com`.
+2. Open the top card and click **Show the maths**. Raw move, what the sector
+   explains, the idiosyncratic remainder, and the range that was expected of it —
+   that panel is the whole product on one screen.
+3. Open **`/calibration`**. The model predicted 1.62 criticals per week and
+   measured 6.27. That gap is reported rather than corrected for, and the page
+   says why.
+
+Those three steps cover the thesis, the mechanism and the evidence. Everything
+below is detail.
 
 ### Sign-in
 
@@ -134,31 +166,47 @@ which fails if `user_id` is ever dropped from a WHERE clause.
 Each one is a claim the product makes, so each is also an assertion in
 `tests/test_scenarios.py`.
 
-```bash
-REPLAY_SCENARIO=market_crash docker compose up   # a market-wide -5% day
-REPLAY_SCENARIO=single_name  docker compose up   # NVDA -6.2%, sector flat
-REPLAY_SCENARIO=spike_revert docker compose up   # AMD +12% then round-trips
-REPLAY_SCENARIO=baseline     docker compose up   # an ordinary session (default)
-```
-
 Switching scenarios needs a fresh database, because the baselines are built from
-the scenario's bars:
+the scenario's bars. Use `export` rather than an inline variable — if the first
+boot hits the extension race above and you re-run `docker compose up`, an inline
+value is not carried into the second invocation and you will silently get
+`baseline`.
 
 ```bash
-docker compose down -v && REPLAY_SCENARIO=market_crash docker compose up
+docker compose down -v
+export REPLAY_SCENARIO=market_crash    # or single_name | spike_revert | baseline
+docker compose up
+
+docker compose exec api printenv REPLAY_SCENARIO   # confirm it took
 ```
 
-What each produces, measured from the running system rather than described:
+What each produces:
 
-**`market_crash`** — every one of the twenty-six rows is down more than 2%. The
-digest shows **one** critical (SPY, which genuinely had a 6.1σ day as an
-instrument in its own right) and a banner:
+**`market_crash`** — a market-wide −5% day. Most of the list is down more than
+2%, and the banner reports the market move with everything below scored net of
+it:
 
 > The whole market is down 5.0% today (6.1 sigma). Moves below are measured net
 > of that.
 
-Not one individual stock reaches critical. A naive watchlist shows twenty-six red
-rows and no information.
+The cards that survive are the ones that fell *harder* than the market explains,
+not the ones that merely fell. That distinction is the entire point: a
+conventional watchlist shows twenty red rows and cannot tell you which is which.
+
+Two notes on reading this scenario, because the exact figures depend on inputs:
+
+- `tests/test_scenarios.py` asserts a stricter version — a fixed 25-ticker list
+  scored at the close, counting non-ETF criticals — and there the answer is
+  **zero individual stocks critical**, with only SPY surfacing as an instrument
+  in its own right. The demo seeder loads a different 20-ticker watchlist, so the
+  browser will show more than that.
+- `REPLAY_CLOCK=compressed` (the default) maps wall-clock time onto the trading
+  session, so prices move continuously and the numbers differ between loads. For
+  a fixed, reproducible view set `REPLAY_CLOCK=pinned`, which is what the tests
+  use.
+
+The three below are quoted from the pinned-clock harness, so they reproduce
+exactly under `REPLAY_CLOCK=pinned` and drift slightly under the default.
 
 **`spike_revert`** — AMD ends the week down 0.45%, so the endpoint comparison sees
 nothing at all (`z_move = −0.17`). It is still the top card, because the path term
@@ -437,23 +485,18 @@ a diff, and is reproducible by `scripts/calibrate.py`.
 All routes are under `/api` and require `Authorization: Bearer <jwt>` unless
 noted. Interactive docs at <http://localhost:8000/docs>.
 
+The full surface — watchlist CRUD, search, feedback, auth — is browsable and
+executable at <http://localhost:8000/docs>. The routes below are the ones that
+carry a design decision worth reading about.
+
 | Method | Path | Purpose |
 |---|---|---|
 | `GET` | `/healthz` | Provider mode, auth mode, Redis, market state, SPY bar count, last nightly run. **Public** |
-| `GET` | `/api/auth/mode` | Which sign-in path is live. **Public** |
-| `POST` | `/api/auth/login` | Local dev sign-in. 404 once `SUPABASE_JWKS_URL` is set. **Public** |
-| `GET` | `/api/auth/me` | Who the bearer token says you are |
-| `GET` | `/api/search?q=` | Local trigram symbol search, ranked exact → prefix → similarity → watchers |
-| `GET` | `/api/watchlist` | Your list |
-| `POST` | `/api/watchlist` | Add a ticker; seeds in the background |
-| `DELETE` | `/api/watchlist/{ticker}` | Remove a ticker |
-| `GET` | `/api/digest` | The product. Supports `If-None-Match`, `?as_if_last_seen=`, `?refresh=` |
-| `POST` | `/api/ack` | Checkpoint the prices carried in a digest token |
-| `POST` | `/api/feedback` | Impressions, click-throughs, dismissals, thumbs |
+| `GET` | `/api/digest` | The product. `If-None-Match` for 304s, `?as_if_last_seen=` for any past window |
+| `POST` | `/api/ack` | Checkpoints the prices carried in the digest token, not the prices at ack time |
 | `GET` | `/api/tickers/{ticker}` | Baseline detail: β, σ, 52-week extremes, residual histogram |
 | `GET` | `/api/calibration` | Predicted vs observed + precision@critical. **Public** |
 | `GET` | `/api/quota` | Partition status and your remaining seeding credits |
-| `POST` | `/api/dev/token` | The pre-UI sign-in, kept for scripts and `curl` |
 
 Response headers on `/api/digest`: `ETag`, `Cache-Control: private, no-cache`,
 `X-Next-Poll-After-Ms`.
@@ -463,29 +506,27 @@ Response headers on `/api/digest`: `ETag`, `Cache-Control: private, no-cache`,
 ## Configuration
 
 Everything is optional. `docker compose up` with none of it set boots a fully
-working product on the replay providers. See [`.env.example`](.env.example).
+working product on the replay providers. The full list with defaults is in
+[`.env.example`](.env.example); these are the ones worth knowing.
 
 | Variable | Default | Notes |
 |---|---|---|
-| `DATABASE_URL` | `postgresql+asyncpg://smw:smw@postgres:5432/smw` | The API uses the pooled URL |
-| `DATABASE_URL_DIRECT` | same | The **worker** uses this. Supabase's pooler runs pgbouncer in transaction mode, where session-scoped behaviour is unreliable |
-| `REDIS_URL` | `redis://redis:6379/0` | Quote cache and ETag bodies |
-| `REDIS_LOCK_URL` | `redis://redis:6379/1` | Locks, on an instance configured `noeviction` |
-| `SUPABASE_JWKS_URL` | *(unset)* | Unset enables the local dev sign-in; set disables it entirely |
-| `SUPABASE_JWT_AUDIENCE` | `authenticated` | |
-| `DEV_AUTH_SECRET` | `dev-insecure-local-only` | Signs local dev tokens; ignored once JWKS is set |
-| `DIGEST_TOKEN_SECRET` | `dev-insecure-local-only` | **Must** come from the environment: one API instance issues a token and another verifies it |
-| `TWELVEDATA_API_KEY` | *(unset)* | Omit and history falls back to replay |
-| `FINNHUB_API_KEY` | *(unset)* | Omit and quotes fall back to replay |
 | `PROVIDER_MODE` | `replay` | `replay` \| `live` |
 | `REPLAY_SCENARIO` | `baseline` | `baseline` \| `market_crash` \| `single_name` \| `spike_revert` |
-| `REPLAY_CLOCK` | `compressed` | `compressed` \| `passthrough` \| `pinned` |
-| `REPLAY_NOW` | *(unset)* | The instant `pinned` freezes at |
-| `SEED_DEMO` | `1` | Run the demo seeder on worker boot |
-| `DEMO_EMAIL` | `you@example.com` | |
+| `REPLAY_CLOCK` | `compressed` | `compressed` \| `passthrough` \| `pinned`. Pin for reproducible numbers |
+| `SUPABASE_JWKS_URL` | *(unset)* | Unset enables the local dev sign-in; set disables it entirely |
+| `TWELVEDATA_API_KEY` | *(unset)* | Omit and history falls back to replay |
+| `FINNHUB_API_KEY` | *(unset)* | Omit and quotes fall back to replay |
 | `DEMO_BACK_SESSIONS` | *(scenario default)* | How many sessions back the demo checkpoint sits |
-| `LOG_LEVEL` | `INFO` | |
-| `CORS_ORIGINS` | `*` | Comma-separated |
+
+Three defaults carry a decision rather than a preference. `DATABASE_URL_DIRECT`
+exists because the **worker** must bypass a connection pooler — Supabase's runs
+pgbouncer in transaction mode, where session-scoped behaviour is unreliable.
+`REDIS_LOCK_URL` points at a separate logical DB configured `noeviction`, because
+under `allkeys-lru` the single-flight lock keys are evictable and stampede
+protection silently stops working under memory pressure. And
+`DIGEST_TOKEN_SECRET` **must** come from the environment rather than being
+generated at boot: one API instance issues a token and another verifies it.
 
 `REPLAY_CLOCK=compressed` maps the real 24-hour wall clock onto the scenario's
 trading session, so prices are always moving and the product is demoable at any
@@ -498,34 +539,14 @@ Scoring constants (weights, thresholds, λ, floors, quota partitions) are in
 
 ## Local development
 
-Docker is the supported path. To run the pieces directly:
-
-### Backend
-
-```bash
-python -m venv .venv
-.venv/Scripts/activate            # Windows;  source .venv/bin/activate elsewhere
-pip install -r requirements-dev.txt
-
-docker compose up -d postgres redis
-
-# .env.local already points at localhost; export it or set the vars yourself
-uvicorn api.main:app --reload --port 8000
-python -m worker.main                       # in a second shell
-```
-
-The schema applies itself on API and worker startup. Both files in `db/` are
-idempotent and re-run on every boot.
-
-### Frontend
-
-```bash
-cd web
-npm install
-npm run dev                       # http://localhost:3000
-```
-
+Docker is the supported path. To run the pieces directly, bring up the
+datastores with `docker compose up -d postgres redis`, then start
+`uvicorn api.main:app --reload --port 8000`, `python -m worker.main`, and
+`npm run dev` in `web/`. `.env.local` already points at localhost, and
 `NEXT_PUBLIC_API_BASE` defaults to `http://localhost:8000`.
+
+The schema applies itself on API and worker startup — both files in `db/` are
+idempotent and re-run on every boot.
 
 ### Useful scripts
 
@@ -703,6 +724,16 @@ than circular.
 ---
 
 ## Troubleshooting
+
+**First boot reports `dependency failed to start`.** On a fresh volume the API
+and worker apply migrations concurrently and race on `CREATE EXTENSION pg_trgm`.
+The API exits with code 3. Run `docker compose up` again; the extension exists by
+then and it comes up clean. Harmless, and it only happens on an empty volume.
+
+**`REPLAY_SCENARIO` reverted to `baseline`.** An inline variable
+(`REPLAY_SCENARIO=x docker compose up`) does not carry into a second invocation,
+so re-running after the race above silently boots the default. Use `export`, and
+confirm with `docker compose exec api printenv REPLAY_SCENARIO`.
 
 **Every card says `seeding`.** SPY has fewer than 260 bars, so scored digests are
 withheld deliberately — without that gate every window would silently measure as a
