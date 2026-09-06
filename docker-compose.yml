@@ -1,0 +1,104 @@
+# `docker compose up` with no API keys must boot a fully working product on the
+# replay providers. That is a hard requirement, not a convenience: nothing
+# downstream should ever be blocked on market hours, a rate limit, or a provider
+# outage.
+
+name: smw
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: smw
+      POSTGRES_PASSWORD: smw
+      POSTGRES_DB: smw
+    ports: ["5432:5432"]
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+      - "./db/init:/docker-entrypoint-initdb.d:ro"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U smw -d smw"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    # Locks live in logical DB 1. Under allkeys-lru the lock keys are evictable
+    # and stampede protection silently stops working under memory pressure --
+    # exactly when it is needed. noeviction is the whole point of this flag.
+    command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "noeviction"]
+    ports: ["6379:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: .
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+    environment:
+      DATABASE_URL: postgresql+asyncpg://smw:smw@postgres:5432/smw
+      DATABASE_URL_DIRECT: postgresql+asyncpg://smw:smw@postgres:5432/smw
+      REDIS_URL: redis://redis:6379/0
+      REDIS_LOCK_URL: redis://redis:6379/1
+      # Shared across API instances, never generated at boot: one instance
+      # issues a digest token and another has to verify it.
+      DIGEST_TOKEN_SECRET: ${DIGEST_TOKEN_SECRET:-dev-insecure-local-only}
+      DEV_AUTH_SECRET: ${DEV_AUTH_SECRET:-dev-insecure-local-only}
+      SUPABASE_JWKS_URL: ${SUPABASE_JWKS_URL:-}
+      TWELVEDATA_API_KEY: ${TWELVEDATA_API_KEY:-}
+      FINNHUB_API_KEY: ${FINNHUB_API_KEY:-}
+      PROVIDER_MODE: ${PROVIDER_MODE:-replay}
+      REPLAY_SCENARIO: ${REPLAY_SCENARIO:-baseline}
+      REPLAY_CLOCK: ${REPLAY_CLOCK:-compressed}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    ports: ["8000:8000"]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8000/healthz || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  worker:
+    build: .
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+    command: ["sh", "/app/docker-entrypoint-worker.sh"]
+    environment:
+      # The worker uses the DIRECT connection: Supabase's pooler runs pgbouncer
+      # in transaction mode and session-scoped behaviour is unreliable there.
+      DATABASE_URL: postgresql+asyncpg://smw:smw@postgres:5432/smw
+      DATABASE_URL_DIRECT: postgresql+asyncpg://smw:smw@postgres:5432/smw
+      REDIS_URL: redis://redis:6379/0
+      REDIS_LOCK_URL: redis://redis:6379/1
+      DIGEST_TOKEN_SECRET: ${DIGEST_TOKEN_SECRET:-dev-insecure-local-only}
+      TWELVEDATA_API_KEY: ${TWELVEDATA_API_KEY:-}
+      FINNHUB_API_KEY: ${FINNHUB_API_KEY:-}
+      PROVIDER_MODE: ${PROVIDER_MODE:-replay}
+      REPLAY_SCENARIO: ${REPLAY_SCENARIO:-baseline}
+      REPLAY_CLOCK: ${REPLAY_CLOCK:-compressed}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      SEED_DEMO: ${SEED_DEMO:-1}
+      DEMO_EMAIL: ${DEMO_EMAIL:-you@example.com}
+
+  web:
+    build: ./web
+    depends_on:
+      api: {condition: service_healthy}
+    environment:
+      NEXT_PUBLIC_API_BASE: ${NEXT_PUBLIC_API_BASE:-http://localhost:8000}
+      API_INTERNAL_BASE: http://api:8000
+    ports: ["3000:3000"]
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+      - /app/.next
+
+volumes:
+  pgdata:

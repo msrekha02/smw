@@ -1,0 +1,428 @@
+[
+ {
+  "ticker": "SPY",
+  "name": "SPDR S&P 500 ETF Trust",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "QQQ",
+  "name": "Invesco QQQ Trust",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "IWM",
+  "name": "iShares Russell 2000 ETF",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "DIA",
+  "name": "SPDR Dow Jones Industrial Average ETF",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "VTI",
+  "name": "Vanguard Total Stock Market ETF",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "VOO",
+  "name": "Vanguard S&P 500 ETF",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "XLK",
+  "name": "Technology Select Sector SPDR",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "XLF",
+  "name": "Financial Select Sector SPDR",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "XLE",
+  "name": "Energy Select Sector SPDR",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "XLV",
+  "name": "Health Care Select Sector SPDR",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "XLI",
+  "name": "Industrial Select Sector SPDR",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "XLY",
+  "name": "Consumer Discretionary Select SPDR",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "XLP",
+  "name": "Consumer Staples Select SPDR",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "XLU",
+  "name": "Utilities Select Sector SPDR",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "XLRE",
+  "name": "Real Estate Select Sector SPDR",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "XLB",
+  "name": "Materials Select Sector SPDR",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "XLC",
+  "name": "Communication Services Select SPDR",
+  "exchange": "NYSE ARCA",
+  "type": "ETF"
+ },
+ {
+  "ticker": "AAPL",
+  "name": "Apple Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "MSFT",
+  "name": "Microsoft Corp",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "NVDA",
+  "name": "NVIDIA Corp",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "AVGO",
+  "name": "Broadcom Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "AMD",
+  "name": "Advanced Micro Devices",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "CRM",
+  "name": "Salesforce Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "ADBE",
+  "name": "Adobe Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "INTC",
+  "name": "Intel Corp",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "ORCL",
+  "name": "Oracle Corp",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "QCOM",
+  "name": "Qualcomm Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "JPM",
+  "name": "JPMorgan Chase & Co",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "BAC",
+  "name": "Bank of America Corp",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "GS",
+  "name": "Goldman Sachs Group",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "WFC",
+  "name": "Wells Fargo & Co",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "MS",
+  "name": "Morgan Stanley",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "XOM",
+  "name": "Exxon Mobil Corp",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "CVX",
+  "name": "Chevron Corp",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "COP",
+  "name": "ConocoPhillips",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "SLB",
+  "name": "Schlumberger NV",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "JNJ",
+  "name": "Johnson & Johnson",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "UNH",
+  "name": "UnitedHealth Group",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "PFE",
+  "name": "Pfizer Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "LLY",
+  "name": "Eli Lilly & Co",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "ABBV",
+  "name": "AbbVie Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "CAT",
+  "name": "Caterpillar Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "BA",
+  "name": "Boeing Co",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "HON",
+  "name": "Honeywell International",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "GE",
+  "name": "GE Aerospace",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "AMZN",
+  "name": "Amazon.com Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "TSLA",
+  "name": "Tesla Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "HD",
+  "name": "Home Depot Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "NKE",
+  "name": "NIKE Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "PG",
+  "name": "Procter & Gamble Co",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "KO",
+  "name": "Coca-Cola Co",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "PEP",
+  "name": "PepsiCo Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "WMT",
+  "name": "Walmart Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "NEE",
+  "name": "NextEra Energy Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "DUK",
+  "name": "Duke Energy Corp",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "SO",
+  "name": "Southern Co",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "AMT",
+  "name": "American Tower Corp",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "PLD",
+  "name": "Prologis Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "LIN",
+  "name": "Linde plc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "SHW",
+  "name": "Sherwin-Williams Co",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "GOOGL",
+  "name": "Alphabet Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "META",
+  "name": "Meta Platforms Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "NFLX",
+  "name": "Netflix Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "DIS",
+  "name": "Walt Disney Co",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "T",
+  "name": "AT&T Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "AAP",
+  "name": "Advance Auto Parts Inc",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "AA",
+  "name": "Alcoa Corp",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "APLE",
+  "name": "Apple Hospitality REIT",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "MSFU",
+  "name": "Direxion Daily MSFT Bull 2X",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "NVDL",
+  "name": "GraniteShares 2x Long NVDA",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ },
+ {
+  "ticker": "TSM",
+  "name": "Taiwan Semiconductor Mfg",
+  "exchange": "NASDAQ",
+  "type": "Common Stock"
+ }
+]

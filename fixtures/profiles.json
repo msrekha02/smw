@@ -1,0 +1,262 @@
+{
+ "SPY": {
+  "name": "SPDR S&P 500 ETF Trust",
+  "sector": null
+ },
+ "QQQ": {
+  "name": "Invesco QQQ Trust",
+  "sector": null
+ },
+ "IWM": {
+  "name": "iShares Russell 2000 ETF",
+  "sector": null
+ },
+ "DIA": {
+  "name": "SPDR Dow Jones Industrial Average ETF",
+  "sector": null
+ },
+ "VTI": {
+  "name": "Vanguard Total Stock Market ETF",
+  "sector": null
+ },
+ "VOO": {
+  "name": "Vanguard S&P 500 ETF",
+  "sector": null
+ },
+ "XLK": {
+  "name": "Technology Select Sector SPDR",
+  "sector": null
+ },
+ "XLF": {
+  "name": "Financial Select Sector SPDR",
+  "sector": null
+ },
+ "XLE": {
+  "name": "Energy Select Sector SPDR",
+  "sector": null
+ },
+ "XLV": {
+  "name": "Health Care Select Sector SPDR",
+  "sector": null
+ },
+ "XLI": {
+  "name": "Industrial Select Sector SPDR",
+  "sector": null
+ },
+ "XLY": {
+  "name": "Consumer Discretionary Select SPDR",
+  "sector": null
+ },
+ "XLP": {
+  "name": "Consumer Staples Select SPDR",
+  "sector": null
+ },
+ "XLU": {
+  "name": "Utilities Select Sector SPDR",
+  "sector": null
+ },
+ "XLRE": {
+  "name": "Real Estate Select Sector SPDR",
+  "sector": null
+ },
+ "XLB": {
+  "name": "Materials Select Sector SPDR",
+  "sector": null
+ },
+ "XLC": {
+  "name": "Communication Services Select SPDR",
+  "sector": null
+ },
+ "AAPL": {
+  "name": "Apple Inc",
+  "sector": "Technology"
+ },
+ "MSFT": {
+  "name": "Microsoft Corp",
+  "sector": "Technology"
+ },
+ "NVDA": {
+  "name": "NVIDIA Corp",
+  "sector": "Technology"
+ },
+ "AVGO": {
+  "name": "Broadcom Inc",
+  "sector": "Technology"
+ },
+ "AMD": {
+  "name": "Advanced Micro Devices",
+  "sector": "Technology"
+ },
+ "CRM": {
+  "name": "Salesforce Inc",
+  "sector": "Technology"
+ },
+ "ADBE": {
+  "name": "Adobe Inc",
+  "sector": "Technology"
+ },
+ "INTC": {
+  "name": "Intel Corp",
+  "sector": "Technology"
+ },
+ "ORCL": {
+  "name": "Oracle Corp",
+  "sector": "Technology"
+ },
+ "QCOM": {
+  "name": "Qualcomm Inc",
+  "sector": "Technology"
+ },
+ "JPM": {
+  "name": "JPMorgan Chase & Co",
+  "sector": "Financial Services"
+ },
+ "BAC": {
+  "name": "Bank of America Corp",
+  "sector": "Financial Services"
+ },
+ "GS": {
+  "name": "Goldman Sachs Group",
+  "sector": "Financial Services"
+ },
+ "WFC": {
+  "name": "Wells Fargo & Co",
+  "sector": "Financial Services"
+ },
+ "MS": {
+  "name": "Morgan Stanley",
+  "sector": "Financial Services"
+ },
+ "XOM": {
+  "name": "Exxon Mobil Corp",
+  "sector": "Energy"
+ },
+ "CVX": {
+  "name": "Chevron Corp",
+  "sector": "Energy"
+ },
+ "COP": {
+  "name": "ConocoPhillips",
+  "sector": "Energy"
+ },
+ "SLB": {
+  "name": "Schlumberger NV",
+  "sector": "Energy"
+ },
+ "JNJ": {
+  "name": "Johnson & Johnson",
+  "sector": "Healthcare"
+ },
+ "UNH": {
+  "name": "UnitedHealth Group",
+  "sector": "Healthcare"
+ },
+ "PFE": {
+  "name": "Pfizer Inc",
+  "sector": "Healthcare"
+ },
+ "LLY": {
+  "name": "Eli Lilly & Co",
+  "sector": "Healthcare"
+ },
+ "ABBV": {
+  "name": "AbbVie Inc",
+  "sector": "Healthcare"
+ },
+ "CAT": {
+  "name": "Caterpillar Inc",
+  "sector": "Industrials"
+ },
+ "BA": {
+  "name": "Boeing Co",
+  "sector": "Industrials"
+ },
+ "HON": {
+  "name": "Honeywell International",
+  "sector": "Industrials"
+ },
+ "GE": {
+  "name": "GE Aerospace",
+  "sector": "Industrials"
+ },
+ "AMZN": {
+  "name": "Amazon.com Inc",
+  "sector": "Consumer Cyclical"
+ },
+ "TSLA": {
+  "name": "Tesla Inc",
+  "sector": "Consumer Cyclical"
+ },
+ "HD": {
+  "name": "Home Depot Inc",
+  "sector": "Consumer Cyclical"
+ },
+ "NKE": {
+  "name": "NIKE Inc",
+  "sector": "Consumer Cyclical"
+ },
+ "PG": {
+  "name": "Procter & Gamble Co",
+  "sector": "Consumer Defensive"
+ },
+ "KO": {
+  "name": "Coca-Cola Co",
+  "sector": "Consumer Defensive"
+ },
+ "PEP": {
+  "name": "PepsiCo Inc",
+  "sector": "Consumer Defensive"
+ },
+ "WMT": {
+  "name": "Walmart Inc",
+  "sector": "Consumer Defensive"
+ },
+ "NEE": {
+  "name": "NextEra Energy Inc",
+  "sector": "Utilities"
+ },
+ "DUK": {
+  "name": "Duke Energy Corp",
+  "sector": "Utilities"
+ },
+ "SO": {
+  "name": "Southern Co",
+  "sector": "Utilities"
+ },
+ "AMT": {
+  "name": "American Tower Corp",
+  "sector": "Real Estate"
+ },
+ "PLD": {
+  "name": "Prologis Inc",
+  "sector": "Real Estate"
+ },
+ "LIN": {
+  "name": "Linde plc",
+  "sector": "Basic Materials"
+ },
+ "SHW": {
+  "name": "Sherwin-Williams Co",
+  "sector": "Basic Materials"
+ },
+ "GOOGL": {
+  "name": "Alphabet Inc",
+  "sector": "Communication Services"
+ },
+ "META": {
+  "name": "Meta Platforms Inc",
+  "sector": "Communication Services"
+ },
+ "NFLX": {
+  "name": "Netflix Inc",
+  "sector": "Communication Services"
+ },
+ "DIS": {
+  "name": "Walt Disney Co",
+  "sector": "Communication Services"
+ },
+ "T": {
+  "name": "AT&T Inc",
+  "sector": "Communication Services"
+ }
+}

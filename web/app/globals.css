@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+
+  /* Deep, premium backgrounds */
+  --surface-0: #030712;
+  --surface-1: #0f172a;
+  --surface-2: #1e293b;
+  --surface-inset: #020617;
+
+  /* Softer ink for reduced eye strain */
+  --ink-1: rgba(255, 255, 255, 0.92);
+  --ink-2: rgba(255, 255, 255, 0.7);
+  --ink-3: rgba(255, 255, 255, 0.4);
+
+  --line-1: rgba(255, 255, 255, 0.08);
+  --line-2: rgba(255, 255, 255, 0.04);
+
+  /* Vibrant, modern brand accents */
+  --brand: #3b82f6;
+  --brand-strong: #1d4ed8;
+  --brand-glow: rgba(59, 130, 246, 0.15);
+
+  --good: #10b981;
+  --warn: #f59e0b;
+  --serious: #f97316;
+  --critical: #ef4444;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+html, body {
+  background: var(--surface-0);
+  color: var(--ink-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+.num, .tnum {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* 
+ * Premium Animations
+ * Smooth, easing fade-ups that feel professional, not jumpy.
+ */
+@keyframes fadeUpGlow {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/*
+ * `both`, not `forwards`. With a `.stagger-*` delay and forwards-only fill, the
+ * element paints at its natural opacity for the length of the delay and then
+ * snaps to zero when the animation starts, which reads as a flicker. Filling
+ * backwards holds the first keyframe through the delay instead.
+ */
+.animate-in {
+  animation: fadeUpGlow 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Stagger utilities for lists */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.15s; }
+.stagger-3 { animation-delay: 0.2s; }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--surface-2);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+
+/* Unified Glass Layer for Cards & Nav */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--line-1);
+  box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2);
+}
+/*
+ * Anchor navigation.
+ *
+ * Smooth scrolling is opt-in by preference rather than opt-out: someone who has
+ * asked the OS for less motion gets an instant jump, which is the same
+ * destination without the travel.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/*
+ * Entrance animations are decoration, so they are the first thing to go.
+ * `.animate-in` starts at opacity 0 and holds its end state with `forwards`,
+ * which means switching the animation off has to restore the end state
+ * explicitly or the content never appears at all.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .animate-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .pulse-live,
+  .card-enter {
+    animation: none;
+  }
+}

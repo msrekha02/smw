@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+web/node_modules/
+web/.next/
+.env
+.env.local
+fixtures/calibration.json.bak
+.ruff_cache/
